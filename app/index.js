@@ -1,22 +1,20 @@
-const client = require('prom-client');
-const express = require('express');
-
-const metricExporter = require('./metrics');
+import promMid from 'express-prometheus-middleware'
+import express from 'express';
 
 const app = express();
 
-// Initialize metrics
-const registry = new client.Registry();
-metricExporter(registry);
+app.use(promMid({
+  metricsPath: '/metrics',
+  collectDefaultMetrics: true,
+}));
 
-// Report Prometheus metrics on /metrics
-app.get('/metrics', async (req, res, next) => {
-  res.set('Content-Type', registry.contentType);
-  res.end(registry.metrics());
-  
-  next();
+app.get('/users/:id', async (req, res) => {
+  if (req.params.id == "fail") {
+    res.status(500).json({ message: "error" })
+  } else {
+    res.json({ id: req.params.id, name: "test" })
+  }
 });
-
 
 // Run the server
 app.listen(9200, '0.0.0.0', () => console.log('App started!'));

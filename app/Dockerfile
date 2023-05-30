@@ -1,17 +1,12 @@
-FROM ubuntu:18.04
+FROM node:20.2.0-alpine
 
 WORKDIR /app
 
-RUN \
-    set -eux; \
-    apt-get update && \
-    apt-get install -y curl build-essential python git && \
-    curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
-    apt-get install -y nodejs
+COPY package.json package-lock.json ./
+
+RUN npm install
 
 COPY . .
-
-RUN npm install --unsafe-perm
 
 ENTRYPOINT ["node"]
 

@@ -2,6 +2,7 @@
   "name": "grafana-prometheus-node-js-example-app",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "express-prometheus-middleware": "^1.2.0",
     "gaussian": "^1.1.0",
     "prom-client": "^11.5.3"
   },
